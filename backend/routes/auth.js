@@ -9,9 +9,10 @@ router.post('/register', async (req, res) => {
   try {
     const user = new User({ username, email, password });
     await user.save();
-    console.log(user)
+    console.log(user);
     res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
+    console.error('Error registering user:', error);
     res.status(500).json({ error: 'Error registering user' });
   }
 });
@@ -34,7 +35,7 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ error: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id }, 'jwt_secret', { expiresIn: '1h' });
     res.json({ token, user: { username: user.username, email: user.email, roles: user.roles } });
   } catch (error) {
     res.status(500).json({ error: 'Error logging in user' });

@@ -7,18 +7,19 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  const login = (email, password) => {
-    const dummyUser = { username: 'john_doe', email };
-    setUser(dummyUser);
-  };
+  // const login = (email, password) => {
+  //   const testUser = { username: 'testuser', email };
+  //   setUser(testUser);
+  // };
 
   const signup = async (username, email, password) => {
     try {
       const response = await axiosInstance.post('/api/auth/register', { username, email, password });
+      console.log('Signup response:', response.data);
       const newUser = response.data;
       setUser(newUser);
     } catch (error) {
-      console.error('Signup failed', error);
+      console.error('Signup failed', error.response ? error.response.data : error.message);
     }
   };
 
@@ -27,7 +28,8 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout }}>
+     <AuthContext.Provider value={{ user, signup, logout }}>         {/* //remember to add login */}
+
       {children}
     </AuthContext.Provider>
   );

@@ -6,7 +6,7 @@ const checkAuth = (req, res, next) => {
     return res.status(401).json({ error: 'No token provided' });
   }
 
-  jwt.verify(token, 'your_jwt_secret', (err, decoded) => {
+  jwt.verify(token, 'jwt_secret', (err, decoded) => {
     if (err) {
       return res.status(401).json({ error: 'Token is not valid' });
     }
@@ -16,3 +16,4 @@ const checkAuth = (req, res, next) => {
 };
 
 module.exports = { checkAuth };
+ 
