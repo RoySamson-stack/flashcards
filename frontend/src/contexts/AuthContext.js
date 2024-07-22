@@ -4,14 +4,22 @@ import axiosInstance from '../axiosConfig';
 
 export const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children}) => {
   const [user, setUser] = useState(null);
 
-  // const login = (email, password) => {
-  //   const testUser = { username: 'testuser', email };
-  //   setUser(testUser);
-  // };
 
+  const login = async (email, password) => {
+    try {
+      const response = await axiosInstance.post('/api/auth/login', { email, password });
+      console.log('Login response:', response.data);
+      const { user: loggedInUser, token } = response.data;
+      setUser(loggedInUser);
+      // Store the token in localStorage or a cookie
+      localStorage.setItem('authToken', token);
+    } catch (error) {
+      console.error('Login failed', error.response ? error.response.data : error.message);
+    }
+  };
   const signup = async (username, email, password) => {
     try {
       const response = await axiosInstance.post('/api/auth/register', { username, email, password });
@@ -28,7 +36,7 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-     <AuthContext.Provider value={{ user, signup, logout }}>         {/* //remember to add login */}
+     <AuthContext.Provider value={{ user, login, signup, logout }}>         {/* //remember to add login */}
 
       {children}
     </AuthContext.Provider>

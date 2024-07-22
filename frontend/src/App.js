@@ -24,8 +24,8 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
             <Route path="/signup" element={<SignupPage />} />
             <Route
               path="/quizzes"
-              // element={<ProtectedRoute component={QuizComponent} />}
-               element = {<QuizComponent />}
+              element={<ProtectedRoute component={QuizComponent} />}
+              //  element = {<QuizComponent />}
             />
             <Route
               path="/flashcards"
