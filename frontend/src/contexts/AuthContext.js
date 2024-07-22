@@ -1,11 +1,15 @@
 import React, { createContext, useState } from 'react';
 import axios from 'axios'
 import axiosInstance from '../axiosConfig';
+import {useNavigate} from "react-router-dom"
+
+
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children}) => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate()
 
 
   const login = async (email, password) => {
@@ -16,16 +20,19 @@ const AuthProvider = ({ children}) => {
       setUser(loggedInUser);
       // Store the token in localStorage or a cookie
       localStorage.setItem('authToken', token);
+      navigate("/profile")
     } catch (error) {
       console.error('Login failed', error.response ? error.response.data : error.message);
     }
   };
+  
   const signup = async (username, email, password) => {
     try {
       const response = await axiosInstance.post('/api/auth/register', { username, email, password });
       console.log('Signup response:', response.data);
       const newUser = response.data;
       setUser(newUser);
+      navigate('/login')
     } catch (error) {
       console.error('Signup failed', error.response ? error.response.data : error.message);
     }
