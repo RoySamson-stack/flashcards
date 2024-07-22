@@ -1,10 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const QuizComponent = ({ questions }) => {
+const QuizComponent = () => {
+  const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
 
-  if (!questions || questions.length === 0) {
+  useEffect(() => {
+    const fetchQuizzes = async () => {
+      try {
+        const response = await axios.get('http://localhost:4000/api/content/quizzes');
+        if (response.data.length > 0) {
+          setQuestions(response.data[0].questions);
+        }
+      } catch (error) {
+        console.error('Error fetching quizzes:', error);
+      }
+    };
+
+    fetchQuizzes();
+  }, []);
+
+  if (questions.length === 0) {
     return <div>No questions available</div>;
   }
 
