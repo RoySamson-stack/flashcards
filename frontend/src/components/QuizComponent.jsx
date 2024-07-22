@@ -4,6 +4,10 @@ const QuizComponent = ({ questions }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
 
+  if (!questions || questions.length === 0) {
+    return <div>No questions available</div>;
+  }
+
   const handleAnswerOptionClick = (isCorrect) => {
     if (isCorrect) {
       setScore(score + 1);
@@ -22,7 +26,10 @@ const QuizComponent = ({ questions }) => {
       <h2>{questions[currentQuestion].questionText}</h2>
       <div>
         {questions[currentQuestion].answerOptions.map((option) => (
-          <button onClick={() => handleAnswerOptionClick(option.isCorrect)} key={option.answerText}>
+          <button
+            onClick={() => handleAnswerOptionClick(option.isCorrect)}
+            key={option.answerText}
+          >
             {option.answerText}
           </button>
         ))}
