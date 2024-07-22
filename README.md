@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Interactive Learning App is a web and mobile application designed to enhance learning through interactive modules such as quizzes, flashcards, and other engaging activities related to book content. The app supports user authentication and content management, providing a comprehensive learning experience.
+The Interactive Learning App is a web application designed to enhance learning through interactive modules such as quizzes, flashcards, and other engaging activities related to book content. The app supports user authentication and content management, providing a comprehensive learning experience.
 
 ## Technology Stack
 
